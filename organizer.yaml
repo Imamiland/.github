@@ -1,0 +1,67 @@
+# Set the default features for all repositories
+repositories:
+  default:
+    features:
+      has_issues: true
+      has_wiki: false
+      has_projects: true
+      has_downloads: true
+    merges:
+      allow_squash_merge: true
+      allow_merge_commit: false
+      allow_rebase_merge: true
+
+# Set the teams
+teams:
+  Admins:
+    members:
+      - AliSajid
+  Developers:
+    members:
+      - AliSajid
+      - AliSajidImami
+  Bots:
+    members:
+      - imamiland-bot
+
+# Should the labels specification be cleaned up
+labels_clean: true
+
+# Built in labels.
+
+labels:
+  - name: bug
+    description: "Something isn't working"
+    color: d73a4a
+
+  - name: documentation
+    description: "Improvements or additions to documentation"
+    color: 0075ca
+
+  - name: duplicate
+    description: "This issue or pull request already exists"
+    color: cfd3d7
+
+  - name: good first issue
+    description: "Good for newcomers"
+    color: 7057ff
+
+  - name: enhancement
+    description: "New feature or request"
+    color: a2eeef
+
+  - name: help wanted
+    description: "Extra attention is needed"
+    color: 008672
+
+  - name: invalid
+    description: "This doesn't seem right"
+    color: e4e669
+
+  - name: question
+    description: "Further information is requested"
+    color: d876e3
+
+  - name: wontfix
+    description: "This will not be worked on"
+    color: ffffff
