@@ -65,3 +65,7 @@ labels:
   - name: wontfix
     description: "This will not be worked on"
     color: ffffff
+
+  - name: development
+    description: "This issue is priority for developers"
+    color: 228672
