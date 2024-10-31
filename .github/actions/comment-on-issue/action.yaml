@@ -1,0 +1,20 @@
+---
+name: "Comment on Issue"
+description: "Posts a comment on an issue"
+inputs:
+  comment:
+    description: "Text to comment on the issue"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Post Comment
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: "${{ inputs.comment }}"
+          });
