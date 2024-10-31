@@ -1,0 +1,19 @@
+---
+name: "Move Issue to Project Column"
+description: "Moves an issue to a specific column in a project board"
+inputs:
+  column_id:
+    description: "ID of the project column"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Move Issue to Column
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const card = await github.projects.createCard({
+            column_id: ${{ inputs.column_id }},
+            content_id: context.issue.id,
+            content_type: "Issue"
+          });
