@@ -1,0 +1,54 @@
+---
+name: Feature Request Workflow
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  issues: write
+  contents: read
+  pull-requests: write
+  project: write
+
+jobs:
+  feature_request_workflow:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'feature-request' || github.event.action == 'opened'
+
+    env:
+      BACKLOG_COLUMN_ID: ${{ secrets.BACKLOG_COLUMN_ID }}
+      PRIORITY_COLUMN_ID: ${{ secrets.PRIORITY_COLUMN_ID }}
+      FEATURE_LABEL: "feature-request"
+      COMMENT: "Thank you for submitting a feature request! It has been added to our backlog for review."
+
+    steps:
+      # Step 1: Add a 'feature' label
+      - name: Add Feature Label
+        uses: ./.github/actions/add-label
+        with:
+          label: ${{ env.FEATURE_LABEL }}
+
+      # Step 2: Move the issue to the Backlog column
+      - name: Move to Backlog
+        uses: ./.github/actions/move-to-column
+        with:
+          column_id: ${{ env.BACKLOG_COLUMN_ID }}
+
+      # Step 3: Comment on the issue to acknowledge submission
+      - name: Comment on Issue
+        uses: ./.github/actions/comment-on-issue
+        with:
+          comment: ${{ env.COMMENT }}
+
+  prioritize_feature:
+    runs-on: ubuntu-latest
+    needs: feature_request_workflow
+    if: github.event.action == 'labeled' && github.event.label.name == 'priority'
+
+    steps:
+      # Move to the priority column if marked with 'priority'
+      - name: Move to Priority Column
+        uses: ./.github/actions/move-to-column
+        with:
+          column_id: ${{ env.PRIORITY_COLUMN_ID }}
